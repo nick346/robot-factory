@@ -5,38 +5,39 @@
  */
 function changeHeadImage(element) {
     document.getElementById("HeadImage").src = "../assets/images/parts/" + element.id;
+    document.getElementById("HeadImage").alt = element.id;
 }
 function changeBodyImage(element) {
     document.getElementById("BodyImage").src = "../assets/images/parts/" + element.id;
+    document.getElementById("BodyImage").alt = element.id;
 }
 function changeFeetImage(element) {
     document.getElementById("FeetImage").src = "../assets/images/parts/" + element.id;
-}
-function assemble() {
-    var head = document.getElementById("HeadImage").src;
-    var body = document.getElementById("BodyImage").src;
-    var legs = document.getElementById("FeetImage").src;
-    var id = 1;
-    // call controller or model function here, passing head body and legs as parameters
-    $.ajax({
-        //url: '/assembly/insertAssembled/'+head+'/'+body+'/'+legs+'',
-        url: '/assembly/insertAssembled',
-        type: 'POST',
-        dataType: 'text',
-        data: {
-            id: id,
-            head: head, //You'll get it with $_POST['head']
-            body: body, //You'll get it with $_POST['body']
-            legs: legs  //You'll get it with $_POST['legs']
-        },
-    })
-    .done(function(data) {
-        // Do what you want in case of success
-        alert('ajax worked');
-    })
-    .fail(function(err) {
-        //Do what you want incase of error
-        alert('ajax worked');
-    });
+    document.getElementById("FeetImage").alt = element.id;
 }
 
+function assemble() {
+   var head = document.getElementById("HeadImage").alt;
+   var body = document.getElementById("BodyImage").alt;
+   var legs = document.getElementById("FeetImage").alt;
+
+   //ajax
+   //you post variables
+   var fields = {
+      head  : head,
+      body  : body,
+      legs  : legs,
+      submit_a: true
+   };
+   
+   $.ajax({
+     url: '/Assembly/insertAssembled',
+     type: 'POST',
+     data: fields,
+     dataType:'JSON',
+     success: function(result){
+        console.log(result);
+        alert('successful ajax');
+     }
+   });
+}
